@@ -44,11 +44,13 @@ class SurveyController extends Controller
             $survey->phone = $request->input('phone');
             $survey->feedback = $request->input('feedback');
             $survey->save();
+            return response()->json([
+                'message' => 'You have successfully submitted a feedback!'
+            ], 200);
         } catch (Throwable $e) {
             var_dump($e->getMessage());
             abort(404);
         }
-        return view('welcome');
     }
 
     /**

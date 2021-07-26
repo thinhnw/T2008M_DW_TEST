@@ -28,36 +28,42 @@
 		<div class="header bg-info p-3">
 			<div class="container">
 				<h2 class="text-white">
+					<a href="/" class="text-white">
 					FPT Aptech
+					</a>
 				</h2>
 			</div>
 		</div>
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col">
-					<form id="form" method="POST">
+					<div>
+						<span class="text-success" id="msg"></span>
+					</div>
+					<form id="form" >
 						@csrf
 						<div class="form-group">
 							<label for="exampleInputPassword1">Your Name</label>
-							<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required value="Thinh">
+							<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required >
 						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">Your Email</label>
-							<input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter your email" required value="nvt@gmail.com">
+							<input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter your email" required >
 						</div>
 						<div class="form-group">
 							<label for="exampleInputPassword1">Your Phone Number</label>
-							<input type="tel" class="form-control" id="phone" name="phone" required placeholder="Enter your phone number" value="0123">
+							<input type="tel" class="form-control" id="phone" name="phone" required placeholder="Enter your phone number">
 						</div>
 						<div class="form-group">
 							<label for="exampleFormControlTextarea1">Example textarea</label>
-							<textarea class="form-control" id="feedback" rows="3" name="feedback" required placeholder="Write your feedback">Hello</textarea>
+							<textarea class="form-control" id="feedback" rows="3" name="feedback" required placeholder="Write your feedback"></textarea>
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
 				</div>
 			</div>
 		</div>	
+</div>
 </body>
 <script>
 	let form = $('#form')
@@ -65,21 +71,25 @@
 	let phone = $('#phone')
 	let email = $('#email')
 	let feedback = $('#feedback')
-	// form.submit(sumit)
+	form.submit(submit)
 	function submit(e) {
 		e.preventDefault()
 		$.ajax({
 				type:'POST',
 				url:'/api/surveys',
 				data: {
-					_token: {{ csrf_token() }},
+					_token: '{{ csrf_token() }}',
 					name: name.val(),
 					phone: phone.val(),
 					email: email.val(),
 					feedback: feedback.val()
 				},
 				success:function(data) {
-					$("#msg").html(data.msg);
+					$("#msg").html(data.message);
+					name.val('')
+					email.val('')
+					feedback.val('')
+					phone.val('')
 				}
 		});
 	}
